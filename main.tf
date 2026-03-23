@@ -39,6 +39,6 @@ module "ansible" {
 
   component = each.key
   public_ip = module.compute[each.key].public_ip
-  env = var.env
+  env = "dev"
 
 }
