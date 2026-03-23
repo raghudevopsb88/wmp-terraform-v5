@@ -2,8 +2,40 @@ module "network" {
   source = "./modules/network"
 
   for_each =  var.components
+
   component = each.key
   env = "dev"
 
 }
 
+module "compute" {
+  source = "./modules/compute"
+
+  for_each =  var.components
+
+  component = each.key
+  sg_id = module.network[each.key].sg_id
+
+}
+
+module "dns" {
+  source = "./modules/compute"
+
+  for_each =  var.components
+
+  component = each.key
+  private_ip = module.compute[each.key].private_ip
+
+}
+
+
+module "ansible" {
+  source = "./modules/ansible"
+
+  for_each = var.components
+  depends_on = [module.dns]
+
+  component = each.key
+  public_ip = module.compute[each.key].public_ip
+
+}
