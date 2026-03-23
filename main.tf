@@ -20,7 +20,7 @@ module "compute" {
 }
 
 module "dns" {
-  source = "./modules/compute"
+  source = "./modules/dns"
 
   for_each =  var.components
 
