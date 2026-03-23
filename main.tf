@@ -15,6 +15,7 @@ module "compute" {
 
   component = each.key
   sg_id = module.network[each.key].sg_id
+  env   = "dev"
 
 }
 
@@ -25,6 +26,7 @@ module "dns" {
 
   component = each.key
   private_ip = module.compute[each.key].private_ip
+  env       = "dev"
 
 }
 
@@ -37,5 +39,6 @@ module "ansible" {
 
   component = each.key
   public_ip = module.compute[each.key].public_ip
+  env = var.env
 
 }
